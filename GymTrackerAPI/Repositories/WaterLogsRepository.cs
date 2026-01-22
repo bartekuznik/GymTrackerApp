@@ -1,6 +1,12 @@
-﻿namespace GymTrackerAPI.Repositories
+﻿using GymTrackerAPI.Contracts;
+using GymTrackerAPI.Data;
+
+namespace GymTrackerAPI.Repositories
 {
-    public class WaterLogsRepository
+    public class WaterLogsRepository : GenericsRepository<WaterLog>, IWaterLogsRepository
     {
+        public WaterLogsRepository(GymTrackerDbContext context) : base(context)
+        {
+        }
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace GymTrackerAPI.Contracts
+﻿using GymTrackerAPI.Data;
+
+namespace GymTrackerAPI.Contracts
 {
-    public interface INutritionLogsRepository
+    public interface INutritionLogsRepository : IGenericsRepository<NutritionLog>
     {
     }
 }

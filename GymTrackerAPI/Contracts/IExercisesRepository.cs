@@ -1,6 +1,9 @@
-﻿namespace GymTrackerAPI.Contracts
+﻿using GymTrackerAPI.Data;
+
+namespace GymTrackerAPI.Contracts
 {
-    public interface IExercisesRepository
+    public interface IExercisesRepository : IGenericsRepository<Exercise>
     {
+
     }
 }

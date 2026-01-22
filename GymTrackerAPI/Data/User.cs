@@ -14,4 +14,4 @@ namespace GymTrackerAPI.Data
 }
 
 
-//używam IdentityUser żeby potem 
+//używam IdentityUser żeby potem dodac jwt

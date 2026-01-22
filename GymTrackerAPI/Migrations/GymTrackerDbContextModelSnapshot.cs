@@ -17,7 +17,7 @@ namespace GymTrackerAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.11")
+                .HasAnnotation("ProductVersion", "9.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -46,6 +46,43 @@ namespace GymTrackerAPI.Migrations
                         .HasDatabaseName("IX_BodyMeasurementLog_User_Date");
 
                     b.ToTable("BodyMeasurementLogs", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("adb970ae-529f-47a2-a3ad-e197d35ed0e3"),
+                            LoggedAt = new DateTimeOffset(new DateTime(2023, 10, 1, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c"),
+                            Weight = 90.50m
+                        },
+                        new
+                        {
+                            Id = new Guid("bdff751b-845d-4851-9afc-93db8fbe1f8f"),
+                            LoggedAt = new DateTimeOffset(new DateTime(2023, 10, 15, 8, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c"),
+                            Weight = 89.20m
+                        },
+                        new
+                        {
+                            Id = new Guid("c3e71846-4552-4731-b52b-6d6498b09871"),
+                            LoggedAt = new DateTimeOffset(new DateTime(2023, 11, 1, 7, 45, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c"),
+                            Weight = 88.00m
+                        },
+                        new
+                        {
+                            Id = new Guid("501fef62-04fc-4a27-a910-a6c1698b1257"),
+                            LoggedAt = new DateTimeOffset(new DateTime(2023, 10, 5, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("c63780c7-30df-4829-89a8-27b34463452a"),
+                            Weight = 65.00m
+                        },
+                        new
+                        {
+                            Id = new Guid("91627900-c250-4cba-b530-01c8ca0bee1f"),
+                            LoggedAt = new DateTimeOffset(new DateTime(2023, 10, 20, 8, 15, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("c63780c7-30df-4829-89a8-27b34463452a"),
+                            Weight = 64.10m
+                        });
                 });
 
             modelBuilder.Entity("GymTrackerAPI.Data.Exercise", b =>
@@ -178,6 +215,63 @@ namespace GymTrackerAPI.Migrations
                         .HasDatabaseName("IX_NutritionLog_User_Date");
 
                     b.ToTable("NutritionLogs", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d0c29fa2-8e25-40f9-944e-be4cae271e34"),
+                            Calories = 450.5m,
+                            Carbs = 65.2m,
+                            ConsumedAt = new DateTimeOffset(new DateTime(2023, 11, 2, 8, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Fat = 12.5m,
+                            FoodName = "Owsianka z borówkami",
+                            Protein = 15.0m,
+                            UserId = new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c")
+                        },
+                        new
+                        {
+                            Id = new Guid("cde21408-1258-4019-b148-c40ee67cebdf"),
+                            Calories = 620.0m,
+                            Carbs = 70.0m,
+                            ConsumedAt = new DateTimeOffset(new DateTime(2023, 11, 2, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Fat = 10.2m,
+                            FoodName = "Kurczak z ryżem i brokułami",
+                            Protein = 45.5m,
+                            UserId = new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c")
+                        },
+                        new
+                        {
+                            Id = new Guid("7995fe93-1a63-417d-a347-fc7c1aae62af"),
+                            Calories = 210.0m,
+                            Carbs = 5.0m,
+                            ConsumedAt = new DateTimeOffset(new DateTime(2023, 11, 2, 17, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Fat = 3.2m,
+                            FoodName = "Shake proteinowy",
+                            Protein = 30.0m,
+                            UserId = new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c")
+                        },
+                        new
+                        {
+                            Id = new Guid("e6646985-fd2f-4e16-b68a-3b50d55d9cf1"),
+                            Calories = 540.0m,
+                            Carbs = 15.5m,
+                            ConsumedAt = new DateTimeOffset(new DateTime(2023, 11, 2, 13, 15, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Fat = 38.0m,
+                            FoodName = "Sałatka Cezar",
+                            Protein = 28.0m,
+                            UserId = new Guid("c63780c7-30df-4829-89a8-27b34463452a")
+                        },
+                        new
+                        {
+                            Id = new Guid("2edaf838-fb7e-42be-99b5-e2eeb577ad3a"),
+                            Calories = 320.0m,
+                            Carbs = 12.0m,
+                            ConsumedAt = new DateTimeOffset(new DateTime(2023, 11, 2, 20, 45, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Fat = 22.5m,
+                            FoodName = "Jogurt Grecki z orzechami",
+                            Protein = 18.2m,
+                            UserId = new Guid("c63780c7-30df-4829-89a8-27b34463452a")
+                        });
                 });
 
             modelBuilder.Entity("GymTrackerAPI.Data.User", b =>
@@ -262,6 +356,48 @@ namespace GymTrackerAPI.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c"),
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTimeOffset(new DateTime(1990, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            ConcurrencyStamp = "72f1fe04-94e1-44ed-a21e-90d6d40a0b01",
+                            Email = "jan.kowalski@example.com",
+                            EmailConfirmed = true,
+                            FirstName = "Jan",
+                            Height = (short)185,
+                            LastName = "Kowalski",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "JAN.KOWALSKI@EXAMPLE.COM",
+                            NormalizedUserName = "JAN.KOWALSKI@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEI0LvnzreqcLER50jX7JZlNJBzluAVZHqflQc418ZpVeNo0OHtb8+zS4jfM4MalfnQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "5DFFFC21-70C5-411B-81D0-59B3F991399A",
+                            TwoFactorEnabled = false,
+                            UserName = "jan.kowalski@example.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("c63780c7-30df-4829-89a8-27b34463452a"),
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTimeOffset(new DateTime(1995, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            ConcurrencyStamp = "6dfa5176-72ae-4346-9137-a44a2242375a",
+                            Email = "anna.nowak@example.com",
+                            EmailConfirmed = true,
+                            FirstName = "Anna",
+                            Height = (short)168,
+                            LastName = "Nowak",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ANNA.NOWAK@EXAMPLE.COM",
+                            NormalizedUserName = "ANNA.NOWAK@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHmjudwy4GO0f1JqXKsxV5fD3gtA7KC68IWiaTwO+J6nAMzVT/P+9D9hMtxsU3ijCg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "051F0548-C920-4511-8829-5A712DF06206",
+                            TwoFactorEnabled = false,
+                            UserName = "anna.nowak@example.com"
+                        });
                 });
 
             modelBuilder.Entity("GymTrackerAPI.Data.WaterLog", b =>
@@ -287,6 +423,43 @@ namespace GymTrackerAPI.Migrations
                         .HasDatabaseName("IX_WaterLog_User_Date");
 
                     b.ToTable("WaterLogs", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("637fa87d-e041-4f57-9c05-50fb84b3a6a2"),
+                            AmountMilliliters = (short)250,
+                            LoggedAt = new DateTimeOffset(new DateTime(2023, 11, 3, 7, 15, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c")
+                        },
+                        new
+                        {
+                            Id = new Guid("1e013160-1b9c-4c97-883f-cb19d6776fb6"),
+                            AmountMilliliters = (short)500,
+                            LoggedAt = new DateTimeOffset(new DateTime(2023, 11, 3, 18, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c")
+                        },
+                        new
+                        {
+                            Id = new Guid("aa7b4a50-de7c-480e-9c9f-4f49ad7f534d"),
+                            AmountMilliliters = (short)330,
+                            LoggedAt = new DateTimeOffset(new DateTime(2023, 11, 3, 10, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("c63780c7-30df-4829-89a8-27b34463452a")
+                        },
+                        new
+                        {
+                            Id = new Guid("4fd58b38-c44b-495b-ac6f-cbac2f1fb93e"),
+                            AmountMilliliters = (short)330,
+                            LoggedAt = new DateTimeOffset(new DateTime(2023, 11, 3, 14, 45, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("c63780c7-30df-4829-89a8-27b34463452a")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b582aa4-dfea-4713-8d82-8e788391a3f1"),
+                            AmountMilliliters = (short)200,
+                            LoggedAt = new DateTimeOffset(new DateTime(2023, 11, 3, 21, 20, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("c63780c7-30df-4829-89a8-27b34463452a")
+                        });
                 });
 
             modelBuilder.Entity("GymTrackerAPI.Data.Workout", b =>
@@ -317,6 +490,26 @@ namespace GymTrackerAPI.Migrations
                         .HasDatabaseName("IX_Workout_UserId_StartAt");
 
                     b.ToTable("Workouts", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c1111111-1111-1111-1111-111111111111"),
+                            EndAt = new DateTimeOffset(new DateTime(2023, 11, 4, 18, 15, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Name = "Siła - Klatka i Plecy",
+                            Notes = "Bardzo dobra sesja, progres w martwym ciągu.",
+                            StartAt = new DateTimeOffset(new DateTime(2023, 11, 4, 17, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c")
+                        },
+                        new
+                        {
+                            Id = new Guid("d2222222-2222-2222-2222-222222222222"),
+                            EndAt = new DateTimeOffset(new DateTime(2023, 11, 4, 10, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Name = "FBW - Start",
+                            Notes = "Skupienie na technice.",
+                            StartAt = new DateTimeOffset(new DateTime(2023, 11, 4, 9, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("c63780c7-30df-4829-89a8-27b34463452a")
+                        });
                 });
 
             modelBuilder.Entity("GymTrackerAPI.Data.WorkoutExercise", b =>
@@ -341,6 +534,36 @@ namespace GymTrackerAPI.Migrations
                     b.HasIndex("WorkoutId", "Order");
 
                     b.ToTable("WorkoutExercises", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c1111111-e111-1111-1111-111111111111"),
+                            ExerciseId = new Guid("a1111111-1111-1111-1111-111111111111"),
+                            Order = (short)1,
+                            WorkoutId = new Guid("c1111111-1111-1111-1111-111111111111")
+                        },
+                        new
+                        {
+                            Id = new Guid("c1111111-e222-1111-1111-111111111111"),
+                            ExerciseId = new Guid("a2222222-2222-2222-2222-222222222222"),
+                            Order = (short)2,
+                            WorkoutId = new Guid("c1111111-1111-1111-1111-111111111111")
+                        },
+                        new
+                        {
+                            Id = new Guid("d2222222-e111-2222-2222-222222222222"),
+                            ExerciseId = new Guid("a1111111-1111-1111-1111-111111111111"),
+                            Order = (short)1,
+                            WorkoutId = new Guid("d2222222-2222-2222-2222-222222222222")
+                        },
+                        new
+                        {
+                            Id = new Guid("d2222222-e222-2222-2222-222222222222"),
+                            ExerciseId = new Guid("a2222222-2222-2222-2222-222222222222"),
+                            Order = (short)2,
+                            WorkoutId = new Guid("d2222222-2222-2222-2222-222222222222")
+                        });
                 });
 
             modelBuilder.Entity("GymTrackerAPI.Data.WorkoutSet", b =>
@@ -386,6 +609,88 @@ namespace GymTrackerAPI.Migrations
                         .HasDatabaseName("IX_WorkoutSet_ExerciseId_Order");
 
                     b.ToTable("WorkoutSets", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("43e759dd-91f6-4071-9fb2-da82366d36a1"),
+                            IsCompleted = true,
+                            Order = (short)1,
+                            Reps = (short)10,
+                            Type = "Work",
+                            Weight = 80.00m,
+                            WorkoutExerciseId = new Guid("c1111111-e111-1111-1111-111111111111")
+                        },
+                        new
+                        {
+                            Id = new Guid("d665bddf-b970-4d0a-b3d6-e8602693ac09"),
+                            IsCompleted = true,
+                            Order = (short)2,
+                            Reps = (short)8,
+                            Type = "Work",
+                            Weight = 85.00m,
+                            WorkoutExerciseId = new Guid("c1111111-e111-1111-1111-111111111111")
+                        },
+                        new
+                        {
+                            Id = new Guid("668148b6-def7-472f-b5db-0b64027eb618"),
+                            IsCompleted = true,
+                            Order = (short)1,
+                            Reps = (short)5,
+                            Type = "Work",
+                            Weight = 120.00m,
+                            WorkoutExerciseId = new Guid("c1111111-e222-1111-1111-111111111111")
+                        },
+                        new
+                        {
+                            Id = new Guid("ba0021ef-d9d3-4efc-83f0-7df2a7134612"),
+                            IsCompleted = true,
+                            Order = (short)2,
+                            Reps = (short)3,
+                            Type = "Work",
+                            Weight = 130.00m,
+                            WorkoutExerciseId = new Guid("c1111111-e222-1111-1111-111111111111")
+                        },
+                        new
+                        {
+                            Id = new Guid("12a6049c-262c-43f2-888f-8593dcf79e3e"),
+                            IsCompleted = true,
+                            Order = (short)1,
+                            Reps = (short)12,
+                            Type = "Warmup",
+                            Weight = 30.00m,
+                            WorkoutExerciseId = new Guid("d2222222-e111-2222-2222-222222222222")
+                        },
+                        new
+                        {
+                            Id = new Guid("4f2811d9-5733-46b6-85b8-bef6714841dd"),
+                            IsCompleted = true,
+                            Order = (short)2,
+                            Reps = (short)10,
+                            Type = "Work",
+                            Weight = 40.00m,
+                            WorkoutExerciseId = new Guid("d2222222-e111-2222-2222-222222222222")
+                        },
+                        new
+                        {
+                            Id = new Guid("2fed9eb5-43d6-4207-8262-363d64242295"),
+                            IsCompleted = true,
+                            Order = (short)1,
+                            Reps = (short)10,
+                            Type = "Work",
+                            Weight = 50.00m,
+                            WorkoutExerciseId = new Guid("d2222222-e222-2222-2222-222222222222")
+                        },
+                        new
+                        {
+                            Id = new Guid("d4ef5a40-4437-4fcb-8b72-ea994924423c"),
+                            IsCompleted = true,
+                            Order = (short)2,
+                            Reps = (short)8,
+                            Type = "Work",
+                            Weight = 55.00m,
+                            WorkoutExerciseId = new Guid("d2222222-e222-2222-2222-222222222222")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>

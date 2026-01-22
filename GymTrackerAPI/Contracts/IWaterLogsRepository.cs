@@ -1,6 +1,8 @@
-﻿namespace GymTrackerAPI.Contracts
+﻿using GymTrackerAPI.Data;
+
+namespace GymTrackerAPI.Contracts
 {
-    public interface IWaterLogsRepository
+    public interface IWaterLogsRepository : IGenericsRepository<WaterLog>
     {
     }
 }

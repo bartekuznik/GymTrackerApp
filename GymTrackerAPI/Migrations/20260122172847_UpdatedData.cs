@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GymTrackerAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class UpdatedData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -325,6 +325,86 @@ namespace GymTrackerAPI.Migrations
                     { new Guid("a3333333-3333-3333-3333-333333333333"), "Przysiady ze sztangą", "Quadriceps", "Glutes", "Bodyweight" },
                     { new Guid("a4444444-4444-4444-4444-444444444444"), "Podciąganie na drążku", "Lats", "Biceps", "Bodyweight" },
                     { new Guid("a5555555-5555-5555-5555-555555555555"), "Wyciskanie żołnierskie (OHP)", "AnteriorDeltoid", "Triceps", "Bodyweight" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "AccessFailedCount", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "Height", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c"), 0, new DateTimeOffset(new DateTime(1990, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "72f1fe04-94e1-44ed-a21e-90d6d40a0b01", "jan.kowalski@example.com", true, "Jan", (short)185, "Kowalski", false, null, "JAN.KOWALSKI@EXAMPLE.COM", "JAN.KOWALSKI@EXAMPLE.COM", "AQAAAAIAAYagAAAAEI0LvnzreqcLER50jX7JZlNJBzluAVZHqflQc418ZpVeNo0OHtb8+zS4jfM4MalfnQ==", null, false, "5DFFFC21-70C5-411B-81D0-59B3F991399A", false, "jan.kowalski@example.com" },
+                    { new Guid("c63780c7-30df-4829-89a8-27b34463452a"), 0, new DateTimeOffset(new DateTime(1995, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "6dfa5176-72ae-4346-9137-a44a2242375a", "anna.nowak@example.com", true, "Anna", (short)168, "Nowak", false, null, "ANNA.NOWAK@EXAMPLE.COM", "ANNA.NOWAK@EXAMPLE.COM", "AQAAAAIAAYagAAAAEHmjudwy4GO0f1JqXKsxV5fD3gtA7KC68IWiaTwO+J6nAMzVT/P+9D9hMtxsU3ijCg==", null, false, "051F0548-C920-4511-8829-5A712DF06206", false, "anna.nowak@example.com" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "BodyMeasurementLogs",
+                columns: new[] { "Id", "LoggedAt", "UserId", "Weight" },
+                values: new object[,]
+                {
+                    { new Guid("501fef62-04fc-4a27-a910-a6c1698b1257"), new DateTimeOffset(new DateTime(2023, 10, 5, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("c63780c7-30df-4829-89a8-27b34463452a"), 65.00m },
+                    { new Guid("91627900-c250-4cba-b530-01c8ca0bee1f"), new DateTimeOffset(new DateTime(2023, 10, 20, 8, 15, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("c63780c7-30df-4829-89a8-27b34463452a"), 64.10m },
+                    { new Guid("adb970ae-529f-47a2-a3ad-e197d35ed0e3"), new DateTimeOffset(new DateTime(2023, 10, 1, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c"), 90.50m },
+                    { new Guid("bdff751b-845d-4851-9afc-93db8fbe1f8f"), new DateTimeOffset(new DateTime(2023, 10, 15, 8, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c"), 89.20m },
+                    { new Guid("c3e71846-4552-4731-b52b-6d6498b09871"), new DateTimeOffset(new DateTime(2023, 11, 1, 7, 45, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c"), 88.00m }
+                });
+
+            migrationBuilder.InsertData(
+                table: "NutritionLogs",
+                columns: new[] { "Id", "Calories", "Carbs", "ConsumedAt", "Fat", "FoodName", "Protein", "UserId" },
+                values: new object[,]
+                {
+                    { new Guid("2edaf838-fb7e-42be-99b5-e2eeb577ad3a"), 320.0m, 12.0m, new DateTimeOffset(new DateTime(2023, 11, 2, 20, 45, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), 22.5m, "Jogurt Grecki z orzechami", 18.2m, new Guid("c63780c7-30df-4829-89a8-27b34463452a") },
+                    { new Guid("7995fe93-1a63-417d-a347-fc7c1aae62af"), 210.0m, 5.0m, new DateTimeOffset(new DateTime(2023, 11, 2, 17, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), 3.2m, "Shake proteinowy", 30.0m, new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c") },
+                    { new Guid("cde21408-1258-4019-b148-c40ee67cebdf"), 620.0m, 70.0m, new DateTimeOffset(new DateTime(2023, 11, 2, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), 10.2m, "Kurczak z ryżem i brokułami", 45.5m, new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c") },
+                    { new Guid("d0c29fa2-8e25-40f9-944e-be4cae271e34"), 450.5m, 65.2m, new DateTimeOffset(new DateTime(2023, 11, 2, 8, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), 12.5m, "Owsianka z borówkami", 15.0m, new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c") },
+                    { new Guid("e6646985-fd2f-4e16-b68a-3b50d55d9cf1"), 540.0m, 15.5m, new DateTimeOffset(new DateTime(2023, 11, 2, 13, 15, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), 38.0m, "Sałatka Cezar", 28.0m, new Guid("c63780c7-30df-4829-89a8-27b34463452a") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "WaterLogs",
+                columns: new[] { "Id", "AmountMilliliters", "LoggedAt", "UserId" },
+                values: new object[,]
+                {
+                    { new Guid("1e013160-1b9c-4c97-883f-cb19d6776fb6"), (short)500, new DateTimeOffset(new DateTime(2023, 11, 3, 18, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c") },
+                    { new Guid("4fd58b38-c44b-495b-ac6f-cbac2f1fb93e"), (short)330, new DateTimeOffset(new DateTime(2023, 11, 3, 14, 45, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("c63780c7-30df-4829-89a8-27b34463452a") },
+                    { new Guid("637fa87d-e041-4f57-9c05-50fb84b3a6a2"), (short)250, new DateTimeOffset(new DateTime(2023, 11, 3, 7, 15, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c") },
+                    { new Guid("7b582aa4-dfea-4713-8d82-8e788391a3f1"), (short)200, new DateTimeOffset(new DateTime(2023, 11, 3, 21, 20, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("c63780c7-30df-4829-89a8-27b34463452a") },
+                    { new Guid("aa7b4a50-de7c-480e-9c9f-4f49ad7f534d"), (short)330, new DateTimeOffset(new DateTime(2023, 11, 3, 10, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("c63780c7-30df-4829-89a8-27b34463452a") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Workouts",
+                columns: new[] { "Id", "EndAt", "Name", "Notes", "StartAt", "UserId" },
+                values: new object[,]
+                {
+                    { new Guid("c1111111-1111-1111-1111-111111111111"), new DateTimeOffset(new DateTime(2023, 11, 4, 18, 15, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Siła - Klatka i Plecy", "Bardzo dobra sesja, progres w martwym ciągu.", new DateTimeOffset(new DateTime(2023, 11, 4, 17, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("42a01733-e4b8-46c0-95c0-cd178ca92d1c") },
+                    { new Guid("d2222222-2222-2222-2222-222222222222"), new DateTimeOffset(new DateTime(2023, 11, 4, 10, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "FBW - Start", "Skupienie na technice.", new DateTimeOffset(new DateTime(2023, 11, 4, 9, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("c63780c7-30df-4829-89a8-27b34463452a") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "WorkoutExercises",
+                columns: new[] { "Id", "ExerciseId", "Order", "WorkoutId" },
+                values: new object[,]
+                {
+                    { new Guid("c1111111-e111-1111-1111-111111111111"), new Guid("a1111111-1111-1111-1111-111111111111"), (short)1, new Guid("c1111111-1111-1111-1111-111111111111") },
+                    { new Guid("c1111111-e222-1111-1111-111111111111"), new Guid("a2222222-2222-2222-2222-222222222222"), (short)2, new Guid("c1111111-1111-1111-1111-111111111111") },
+                    { new Guid("d2222222-e111-2222-2222-222222222222"), new Guid("a1111111-1111-1111-1111-111111111111"), (short)1, new Guid("d2222222-2222-2222-2222-222222222222") },
+                    { new Guid("d2222222-e222-2222-2222-222222222222"), new Guid("a2222222-2222-2222-2222-222222222222"), (short)2, new Guid("d2222222-2222-2222-2222-222222222222") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "WorkoutSets",
+                columns: new[] { "Id", "IsCompleted", "Order", "Reps", "RestTime", "Type", "Weight", "WorkoutExerciseId" },
+                values: new object[,]
+                {
+                    { new Guid("12a6049c-262c-43f2-888f-8593dcf79e3e"), true, (short)1, (short)12, null, "Warmup", 30.00m, new Guid("d2222222-e111-2222-2222-222222222222") },
+                    { new Guid("2fed9eb5-43d6-4207-8262-363d64242295"), true, (short)1, (short)10, null, "Work", 50.00m, new Guid("d2222222-e222-2222-2222-222222222222") },
+                    { new Guid("43e759dd-91f6-4071-9fb2-da82366d36a1"), true, (short)1, (short)10, null, "Work", 80.00m, new Guid("c1111111-e111-1111-1111-111111111111") },
+                    { new Guid("4f2811d9-5733-46b6-85b8-bef6714841dd"), true, (short)2, (short)10, null, "Work", 40.00m, new Guid("d2222222-e111-2222-2222-222222222222") },
+                    { new Guid("668148b6-def7-472f-b5db-0b64027eb618"), true, (short)1, (short)5, null, "Work", 120.00m, new Guid("c1111111-e222-1111-1111-111111111111") },
+                    { new Guid("ba0021ef-d9d3-4efc-83f0-7df2a7134612"), true, (short)2, (short)3, null, "Work", 130.00m, new Guid("c1111111-e222-1111-1111-111111111111") },
+                    { new Guid("d4ef5a40-4437-4fcb-8b72-ea994924423c"), true, (short)2, (short)8, null, "Work", 55.00m, new Guid("d2222222-e222-2222-2222-222222222222") },
+                    { new Guid("d665bddf-b970-4d0a-b3d6-e8602693ac09"), true, (short)2, (short)8, null, "Work", 85.00m, new Guid("c1111111-e111-1111-1111-111111111111") }
                 });
 
             migrationBuilder.CreateIndex(

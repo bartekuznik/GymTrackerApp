@@ -1,5 +1,7 @@
 using GymTrackerAPI.Configurations;
+using GymTrackerAPI.Contracts;
 using GymTrackerAPI.Data;
+using GymTrackerAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -15,7 +17,11 @@ builder.Services.AddDbContext<GymTrackerDbContext>(options =>
     options.UseSqlServer(conectionString);
 });
 
-
+builder.Services.AddScoped(typeof(IGenericsRepository<>), typeof(GenericsRepository<>));
+builder.Services.AddScoped<IExercisesRepository, ExercisesRepository>();
+builder.Services.AddScoped<IBodyMeasurementLogsRepository, BodyMeasurementLogsRepository>();
+builder.Services.AddScoped<INutritionLogsRepository, NutritionLogsRepository>();
+builder.Services.AddScoped<IWaterLogsRepository, WaterLogsRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
