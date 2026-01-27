@@ -6,7 +6,7 @@ namespace GymTrackerAPI.Repositories
 {
     public class GenericsRepository<T> : IGenericsRepository<T> where T : class
     {
-        private readonly GymTrackerDbContext _context;
+        protected readonly GymTrackerDbContext _context;
 
         public GenericsRepository(GymTrackerDbContext context)
         {

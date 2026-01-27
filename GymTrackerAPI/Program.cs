@@ -22,6 +22,9 @@ builder.Services.AddScoped<IExercisesRepository, ExercisesRepository>();
 builder.Services.AddScoped<IBodyMeasurementLogsRepository, BodyMeasurementLogsRepository>();
 builder.Services.AddScoped<INutritionLogsRepository, NutritionLogsRepository>();
 builder.Services.AddScoped<IWaterLogsRepository, WaterLogsRepository>();
+builder.Services.AddScoped<IWorkoutSetsRepository, WorkoutSetsRepository>();
+builder.Services.AddScoped<IWorkoutExercisesRepository, WorkoutExercisesRepository>();
+builder.Services.AddScoped<IWorkoutsRepository, WorkoutsRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

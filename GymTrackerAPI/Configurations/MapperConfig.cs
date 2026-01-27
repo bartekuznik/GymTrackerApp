@@ -39,7 +39,8 @@ namespace GymTrackerAPI.Configurations
             CreateMap<WaterLog, CreateWaterLogDto>().ReverseMap();
             CreateMap<WaterLog, UpdateWaterLogDto>().ReverseMap();
 
-            CreateMap<Workout, WorkoutDto>().ReverseMap();
+            CreateMap<Workout, WorkoutDto>()
+                .ForMember(dest => dest.WorkoutExerciseDto, opt => opt.MapFrom(src => src.WorkoutExercise));
             CreateMap<Workout, CreateWorkoutDto>().ReverseMap();
             CreateMap<Workout, UpdateWorkoutDto>().ReverseMap();
 
@@ -50,6 +51,7 @@ namespace GymTrackerAPI.Configurations
             CreateMap<WorkoutSet, WorkoutSetDto>().ReverseMap();
             CreateMap<WorkoutSet, CreateWorkoutSetDto>().ReverseMap();
             CreateMap<WorkoutSet, UpdateWorkoutSetDto>().ReverseMap();
+            CreateMap<WorkoutSet, WorkoutSetPreviewDto>().ReverseMap();
         }
         
     }

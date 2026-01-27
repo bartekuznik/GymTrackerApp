@@ -34,7 +34,7 @@ namespace GymTrackerAPI.Controllers
             return Ok(exercisesDto);
         }
 
-        //Przed zdefiniowaniem Ról admina potrzebujemy tylko listy
+        //Przed zdefiniowaniem ról admina potrzebujemy tylko listy
 
         //// GET: api/Exercises/5
         //[HttpGet("{id}")]
