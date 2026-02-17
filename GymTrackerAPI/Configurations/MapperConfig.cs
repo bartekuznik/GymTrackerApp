@@ -34,6 +34,8 @@ namespace GymTrackerAPI.Configurations
                 .ReverseMap();
             CreateMap<User, UpdateUserDto>().ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User, UserLoginDto>().ReverseMap();
+            CreateMap<User, UserRegisterDto>().ReverseMap();
 
             CreateMap<WaterLog, WaterLogDto>().ReverseMap();
             CreateMap<WaterLog, CreateWaterLogDto>().ReverseMap();
