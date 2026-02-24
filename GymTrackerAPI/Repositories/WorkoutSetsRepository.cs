@@ -11,10 +11,10 @@ namespace GymTrackerAPI.Repositories
         {
         }
 
-        public async Task<IEnumerable<WorkoutSet>> GetSetsByExerciseIdAsync(Guid exerciseId)
+        public async Task<IEnumerable<WorkoutSet>> GetSetsByExerciseIdAsync(Guid exerciseId, Guid userId)
         {
             return await _context.Set<WorkoutSet>()
-                .Where(s => s.WorkoutExerciseId == exerciseId)
+                .Where(s => s.WorkoutExerciseId == exerciseId && s.WorkoutExercise.Workout.UserId == userId)
                 .OrderBy(s => s.Order).ToListAsync();
         }
     }

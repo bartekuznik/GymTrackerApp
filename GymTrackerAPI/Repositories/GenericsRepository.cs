@@ -1,6 +1,7 @@
 ﻿using GymTrackerAPI.Contracts;
 using GymTrackerAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace GymTrackerAPI.Repositories
 {
@@ -20,19 +21,37 @@ namespace GymTrackerAPI.Repositories
             return entity;
         }
 
-        public async Task<IEnumerable<T?>> GetAllAsync()
+        public async Task<IEnumerable<T?>> GetAllAsync(Expression<Func<T, bool>> filter = null)
         {
-            return await _context.Set<T>().ToListAsync();
+            //return await _context.Set<T>().ToListAsync();
+
+            IQueryable<T> query = _context.Set<T>();
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            return await query.ToListAsync();
         }
 
-        public async Task<T> GetById(Guid id)
+
+        public async Task<T> GetById(Guid id, Expression<Func<T, bool>> filter = null)
         {
+
             if (id == Guid.Empty) 
             {
                 return null;
             }
 
-            return await _context.Set<T>().FindAsync(id);
+            IQueryable<T> query = _context.Set<T>();
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            return await query.FirstOrDefaultAsync(x => EF.Property<Guid>(x, "Id") == id);
 
         }
 
@@ -46,9 +65,9 @@ namespace GymTrackerAPI.Repositories
             return true;
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id, Expression<Func<T, bool>> filter = null)
         {
-            var entity = await GetById(id);
+            var entity = await GetById(id, filter);
             if (entity == null)
             {
                 return false; // Nie znaleźliśmy, więc nie usuniemy
@@ -64,5 +83,7 @@ namespace GymTrackerAPI.Repositories
             _context.Update(entity);
             await _context.SaveChangesAsync();
         }
+
+       
     }
 }

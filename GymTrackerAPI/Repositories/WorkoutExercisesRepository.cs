@@ -12,17 +12,17 @@ namespace GymTrackerAPI.Repositories
         {
         }
 
-        public async Task<IEnumerable<WorkoutExercise>> GetWorkoutExerciseByWorkoutIdAsync(Guid workoutId)
+        public async Task<IEnumerable<WorkoutExercise>> GetWorkoutExerciseByWorkoutIdAsync(Guid workoutId, Guid userId)
         {
             return await _context.Set<WorkoutExercise>()
-               .Where(s => s.WorkoutId == workoutId)
+               .Where(s => s.WorkoutId == workoutId && s.Workout.UserId == userId)
                .OrderBy(s => s.Order).ToListAsync();
         }
 
-        public async Task<IEnumerable<WorkoutExerciseDto>> GetWorkoutExerciseByWorkoutIdWithPreviewAsync(Guid workoutId)
+        public async Task<IEnumerable<WorkoutExerciseDto>> GetWorkoutExerciseByWorkoutIdWithPreviewAsync(Guid workoutId, Guid userId)
         {
             return  await _context.Set<WorkoutExercise>()
-                .Where(s => s.WorkoutId == workoutId)
+                .Where(s => s.WorkoutId == workoutId && s.Workout.UserId == userId)
                 .OrderBy(s => s.Order)
                 .Select(w => new WorkoutExerciseDto
                     {
@@ -30,6 +30,7 @@ namespace GymTrackerAPI.Repositories
                         Order = w.Order,
                         WorkoutSet = w.WorkoutSet.Select(set => new WorkoutSetDto
                             {
+                                Id = set.Id,
                                 Weight = set.Weight,
                                 Reps = set.Reps
                             }).ToList()

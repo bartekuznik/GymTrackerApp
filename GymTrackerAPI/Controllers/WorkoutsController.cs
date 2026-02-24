@@ -1,35 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using GymTrackerAPI.Contracts;
+using GymTrackerAPI.Data;
+using GymTrackerAPI.Models.Workout;
+using GymTrackerAPI.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using GymTrackerAPI.Data;
-using GymTrackerAPI.Contracts;
-using AutoMapper;
-using GymTrackerAPI.Models.Workout;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GymTrackerAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class WorkoutsController : ControllerBase
     {
         private readonly IWorkoutsRepository _workoutsRepository;
         private readonly IMapper _mapper;
+        private readonly IUserAccessor _userAccessor;
 
-        public WorkoutsController(IWorkoutsRepository workoutsRepository, IMapper mapper)
+        public WorkoutsController(IWorkoutsRepository workoutsRepository, IMapper mapper, IUserAccessor? userAccessor)
         {
             _workoutsRepository = workoutsRepository;
             _mapper = mapper;
+            _userAccessor = userAccessor;
         }
 
         // GET: api/Workouts
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WorkoutDto>>> GetWorkouts()
         {
-            var workouts = await _workoutsRepository.GetAllAsync();
+            var userId = _userAccessor.GetUserId();
+            var workouts = await _workoutsRepository.GetAllAsync(q => q.UserId == userId);
             var workoutsDtos = _mapper.Map<IEnumerable<WorkoutDto>>(workouts);
             return Ok(workoutsDtos);
         }
@@ -38,7 +44,8 @@ namespace GymTrackerAPI.Controllers
         [HttpGet("Preview")]
         public async Task<ActionResult<IEnumerable<WorkoutPreviewDto>>> GetWorkoutsWithPreview()
         {
-            var workouts = await _workoutsRepository.GetAllWorkkousWithPreviewAsync();
+            var userId = _userAccessor.GetUserId();
+            var workouts = await _workoutsRepository.GetAllWorkkousWithPreviewAsync(userId);
             var workoutsDtos = _mapper.Map<IEnumerable<WorkoutPreviewDto>>(workouts);
             return Ok(workoutsDtos);
         }
@@ -47,7 +54,8 @@ namespace GymTrackerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<WorkoutDto>> GetWorkout(Guid id)
         {
-            var workout = await _workoutsRepository.GetWorkoutWithDetailsAsync(id);
+            var userId = _userAccessor.GetUserId();
+            var workout = await _workoutsRepository.GetWorkoutWithDetailsAsync(id, userId);
 
             if (workout == null)
             {
@@ -64,12 +72,13 @@ namespace GymTrackerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutWorkout(Guid id, UpdateWorkoutDto updateWorkoutDto)
         {
+            var userId = _userAccessor.GetUserId();
             if (id != updateWorkoutDto.Id)
             {
                 return BadRequest();
             }
 
-            var workout = await _workoutsRepository.GetById(id);
+            var workout = await _workoutsRepository.GetById(id, q => q.UserId == userId);
 
             if (workout == null) 
             {
@@ -88,10 +97,9 @@ namespace GymTrackerAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Workout>> PostWorkout(CreateWorkoutDto createWorkoutDto)
         {
-            //var userId = User.GetUserId(); // pobrane z tokena JWT
-            var tempUserId = Guid.Parse("42a01733-e4b8-46c0-95c0-cd178ca92d1c"); //userId Jan Kowalski
+            var userId = _userAccessor.GetUserId();
             var workout = _mapper.Map<Workout>(createWorkoutDto);
-            workout.UserId = tempUserId;
+            workout.UserId = userId;
 
             await _workoutsRepository.AddAsync(workout);
 
@@ -102,13 +110,15 @@ namespace GymTrackerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWorkout(Guid id)
         {
+            var userId = _userAccessor.GetUserId();
+
             if (id == Guid.Empty)
             {
                 return BadRequest();
             }
 
 
-            var deleted = await _workoutsRepository.DeleteAsync(id);
+            var deleted = await _workoutsRepository.DeleteAsync(id, q => q.UserId == userId);
 
             if (!deleted)
             {

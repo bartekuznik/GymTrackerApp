@@ -2,6 +2,8 @@
 using GymTrackerAPI.Data;
 using GymTrackerAPI.Models.Workout;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace GymTrackerAPI.Repositories
 {
@@ -11,9 +13,10 @@ namespace GymTrackerAPI.Repositories
         {
         }
 
-        public async Task<IEnumerable<WorkoutPreviewDto>> GetAllWorkkousWithPreviewAsync()
+        public async Task<IEnumerable<WorkoutPreviewDto>> GetAllWorkkousWithPreviewAsync(Guid userId)
         {
             return await _context.Workouts
+                .Where(w => w.UserId == userId)
                 .OrderByDescending(w => w.StartAt)
                 .Select(w => new WorkoutPreviewDto
                 {
@@ -29,9 +32,10 @@ namespace GymTrackerAPI.Repositories
 
         }
 
-        public async Task<Workout?> GetWorkoutWithDetailsAsync(Guid id)
+        public async Task<Workout?> GetWorkoutWithDetailsAsync(Guid id, Guid userId)
         {
             return await _context.Workouts
+                .Where(w => w.UserId == userId)
                 .Include(w => w.WorkoutExercise)
                     .ThenInclude(e => e.WorkoutSet) 
                 .AsNoTracking() 

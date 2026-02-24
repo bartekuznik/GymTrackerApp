@@ -1,35 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using GymTrackerAPI.Contracts;
+using GymTrackerAPI.Data;
+using GymTrackerAPI.Models.WaterLog;
+using GymTrackerAPI.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using GymTrackerAPI.Data;
-using GymTrackerAPI.Contracts;
-using AutoMapper;
-using GymTrackerAPI.Models.WaterLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GymTrackerAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class WaterLogsController : ControllerBase
     {
         private readonly IWaterLogsRepository _waterLogsRepository;
         private readonly IMapper _mapper;
+        private readonly IUserAccessor _userAccessor;
 
-        public WaterLogsController(IWaterLogsRepository waterLogsRepository, IMapper mapper)
+        public WaterLogsController(IWaterLogsRepository waterLogsRepository, IMapper mapper, IUserAccessor? userAccessor)
         {
             _waterLogsRepository = waterLogsRepository;
             _mapper = mapper;
+            _userAccessor = userAccessor;
         }
 
         // GET: api/WaterLogs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WaterLogDto>>> GetWaterLogs()
         {
-            var waterLog = await _waterLogsRepository.GetAllAsync();
+            var userId = _userAccessor.GetUserId();
+            var waterLog = await _waterLogsRepository.GetAllAsync(q => q.UserId == userId);
             var waterLogDto = _mapper.Map<IEnumerable<WaterLogDto>>(waterLog);
             return Ok(waterLogDto);
         }
@@ -38,8 +44,8 @@ namespace GymTrackerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<WaterLogDto>> GetWaterLog(Guid id)
         {
-
-            var waterLog = await _waterLogsRepository.GetById(id);
+            var userId = _userAccessor.GetUserId();
+            var waterLog = await _waterLogsRepository.GetById(id, q => q.UserId == userId);
 
             if (waterLog == null)
             {
@@ -56,12 +62,14 @@ namespace GymTrackerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutWaterLog(Guid id, UpdateWaterLogDto updateWaterLogDto)
         {
+            var userId = _userAccessor.GetUserId();
+
             if (id != updateWaterLogDto.Id)
             {
                 return BadRequest();
             }
 
-            var waterLog = await _waterLogsRepository.GetById(id);
+            var waterLog = await _waterLogsRepository.GetById(id, q => q.UserId == userId);
 
             if (waterLog == null)
             {
@@ -80,11 +88,11 @@ namespace GymTrackerAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<CreateWaterLogDto>> PostWaterLog(CreateWaterLogDto createWaterLogDto)
         {
-            //var userId = User.GetUserId(); // pobrane z tokena JWT
-            var tempUserId = Guid.Parse("42a01733-e4b8-46c0-95c0-cd178ca92d1c"); //userId Jan Kowalski
+            
+            var userId = _userAccessor.GetUserId();
             var waterLog = _mapper.Map<WaterLog>(createWaterLogDto);
 
-            waterLog.UserId = tempUserId;
+            waterLog.UserId = userId;
 
             await _waterLogsRepository.AddAsync(waterLog);
 
@@ -95,12 +103,14 @@ namespace GymTrackerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWaterLog(Guid id)
         {
+            var userId = _userAccessor.GetUserId();
+
             if (id == Guid.Empty)
             {
                 return BadRequest();
             }
 
-            var deleted = await _waterLogsRepository.DeleteAsync(id);
+            var deleted = await _waterLogsRepository.DeleteAsync(id, q => q.UserId == userId);
 
             if (!deleted)
             {

@@ -1,36 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using GymTrackerAPI.Contracts;
+using GymTrackerAPI.Data;
+using GymTrackerAPI.Models.NutritionLog;
+using GymTrackerAPI.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using GymTrackerAPI.Data;
-using GymTrackerAPI.Repositories;
-using AutoMapper;
-using GymTrackerAPI.Models.NutritionLog;
-using GymTrackerAPI.Contracts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GymTrackerAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class NutritionLogsController : ControllerBase
     {
         private readonly INutritionLogsRepository _nutritionLogsRepository;
         private readonly IMapper _mapper;
+        private readonly IUserAccessor _userAccessor;
 
-        public NutritionLogsController(INutritionLogsRepository nutritionLogsRepository, IMapper mapper)
+        public NutritionLogsController(INutritionLogsRepository nutritionLogsRepository, IMapper mapper, IUserAccessor? userAccessor)
         {
             _nutritionLogsRepository = nutritionLogsRepository;
             _mapper = mapper;
+            _userAccessor = userAccessor;
         }
 
         // GET: api/NutritionLogs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<NutritionLogDto>>> GetNutritionLogs()
         {
-            var nutritionLog = await _nutritionLogsRepository.GetAllAsync();
+            var userId = _userAccessor.GetUserId();
+            var nutritionLog = await _nutritionLogsRepository.GetAllAsync(q => q.UserId == userId);
             var nutritionLogDto = _mapper.Map<IEnumerable<NutritionLogDto>>(nutritionLog);
             return Ok(nutritionLogDto);
         }
@@ -39,7 +44,8 @@ namespace GymTrackerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<NutritionLogDto>> GetNutritionLog(Guid id)
         {
-            var nutritionLog = await _nutritionLogsRepository.GetById(id);
+            var userId = _userAccessor.GetUserId();
+            var nutritionLog = await _nutritionLogsRepository.GetById(id, q => q.UserId == userId);
 
             if (nutritionLog == null)
             {
@@ -56,12 +62,13 @@ namespace GymTrackerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutNutritionLog(Guid id, UpdateNutritionLogDto updateNutritionLogDto)
         {
+            var userId = _userAccessor.GetUserId();
             if (id != updateNutritionLogDto.Id)
             {
                 return BadRequest();
             }
 
-            var nutritionLog = await _nutritionLogsRepository.GetById(id);
+            var nutritionLog = await _nutritionLogsRepository.GetById(id, q => q.UserId == userId);
 
             if (nutritionLog == null)
             {
@@ -80,11 +87,11 @@ namespace GymTrackerAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<CreateNutritionLogDto>> PostNutritionLog(CreateNutritionLogDto createNutritionLogDto)
         {
-            //var userId = User.GetUserId(); // pobrane z tokena JWT
-            var tempUserId = Guid.Parse("42a01733-e4b8-46c0-95c0-cd178ca92d1c"); //userId Jan Kowalski                                                                      //
+            
+            var userId = _userAccessor.GetUserId();                                                                     //
             var nutritionLog = _mapper.Map<NutritionLog>(createNutritionLogDto);
 
-            nutritionLog.UserId = tempUserId;
+            nutritionLog.UserId = userId;
             await _nutritionLogsRepository.AddAsync(nutritionLog);
 
             return CreatedAtAction("GetNutritionLog", new { id = nutritionLog.Id }, nutritionLog);
@@ -94,12 +101,14 @@ namespace GymTrackerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNutritionLog(Guid id)
         {
+            var userId = _userAccessor.GetUserId();
+
             if (id == Guid.Empty)
             {
                 return BadRequest();
             }
 
-            var deleted = await _nutritionLogsRepository.DeleteAsync(id);
+            var deleted = await _nutritionLogsRepository.DeleteAsync(id, q => q.UserId == userId);
 
             if (!deleted) 
             {

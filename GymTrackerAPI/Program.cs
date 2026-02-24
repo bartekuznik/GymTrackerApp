@@ -7,11 +7,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Serilog;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Text.Json.Serialization;
 
+
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 
@@ -23,7 +27,9 @@ builder.Services.AddDbContext<GymTrackerDbContext>(options =>
 builder.Services.AddIdentityCore<User>()
     .AddRoles<IdentityRole<Guid>>()
     .AddEntityFrameworkStores<GymTrackerDbContext>()
-    .AddDefaultTokenProviders(); ;
+    .AddDefaultTokenProviders();
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped(typeof(IGenericsRepository<>), typeof(GenericsRepository<>));
 builder.Services.AddScoped<IExercisesRepository, ExercisesRepository>();
@@ -34,6 +40,7 @@ builder.Services.AddScoped<IWorkoutSetsRepository, WorkoutSetsRepository>();
 builder.Services.AddScoped<IWorkoutExercisesRepository, WorkoutExercisesRepository>();
 builder.Services.AddScoped<IWorkoutsRepository, WorkoutsRepository>();
 builder.Services.AddScoped<IAuthManager, AuthManager>();
+builder.Services.AddScoped<IUserAccessor, UserAccessor>();
 
 var issuer = builder.Configuration["JwtSettings:Issuer"];
 var audience = builder.Configuration["JwtSettings:Audience"];
@@ -57,7 +64,31 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = @"Wpisz: Bearer [Twój_Token]",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" },
+                Scheme = "oauth2",
+                Name = "Bearer",
+                In = ParameterLocation.Header
+            },
+            new List<string>()
+        }
+    });
+});
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

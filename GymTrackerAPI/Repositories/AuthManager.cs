@@ -64,10 +64,10 @@ namespace GymTrackerAPI.Repositories
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()), // UserId jako "sub"
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),       // Email jako "email"
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim("firstName", user.FirstName) 
+                new Claim("firstName", user.FirstName)
             };
 
             //var roles = await _userManager.GetRolesAsync(user);
@@ -77,7 +77,7 @@ namespace GymTrackerAPI.Repositories
                 issuer: _configuration["JwtSettings:Issuer"],
                 audience: _configuration["JwtSettings:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(60),
+                expires: DateTime.Now.AddDays(7), //ew todo refresh token
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
